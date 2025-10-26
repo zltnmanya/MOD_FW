@@ -1,0 +1,12 @@
+[submodule "submodules/i2cdevlib"]
+	path = submodules/i2cdevlib
+	url = https://github.com/zltnmanya/i2cdevlib.git
+[submodule "submodules/libopencm3"]
+	path = submodules/libopencm3
+	url = https://github.com/zltnmanya/libopencm3.git
+[submodule "submodules/dfu-util"]
+	path = submodules/dfu-util
+	url = https://github.com/zltnmanya/dfu-util.git
+[submodule "submodules/quaternions"]
+	path = submodules/quaternions
+	url = https://github.com/zltnmanya/quaternions.git
