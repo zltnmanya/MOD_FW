@@ -2,6 +2,8 @@
 MOD (Modular Orientation Device) is an open-source headtracking device, that uses a combination of sensors (gyroscope, accelerometer, magnetometer) to track the head movements of the user. The device communicates over USB as a HID input device (like a joystick), and sends its current orientation to the PC.
 The project is built around an STM32 microcontroller.
 
+<a href="https://www.youtube.com/watch?v=T4qFto7xzlo" target="_blank"><img alt="demo video thumbnail" src="http://github.com/zltnmanya/MOD_FW/blob/main/demo_thumbnail.jpg?raw=true" /></a>
+
 ## Modes of operation
 
 ### Tracking mode (default)
