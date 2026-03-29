@@ -7,7 +7,7 @@ The project is built around an STM32 microcontroller.
 ## Modes of operation
 
 ### Tracking mode (default)
-In this mode, the device continously tracks its orientation using the sensors, and sends the calculated orientation over USB.
+In this mode, the device continously tracks its orientation using the sensors, and sends the calculated orientation over USB. The mode is enabled by sending `T` through the virtual serial port.
 
 Since errors from the gyro tend to accumulate over time, the orientation is automatically recentered if the device is facing roughly in the same direction as it was last centered manually.
 
@@ -19,7 +19,7 @@ In this mode, the device sends the orientation as quaternions. This can be used 
 This mode can be enabled by compiling the firmware with HID_REPORT_SEND_QUAT defined.
 
 ### Streaming mode
-This mode can be used for obtaining raw sensor readings from the device to be used for calibration. The mode is enabled by calling `dev_mode_set_streaming()` at the beginning of `main()`.
+This mode can be used for obtaining raw sensor readings from the device to be used for calibration. The mode is enabled by sending `S` through the virtual serial port.
 
 ## Building
 For building the firmware binary you will need:
@@ -57,6 +57,8 @@ The following commands can be sent over the virtual serial port as single charac
  - `d` -- print device state
  - `t` -- dump performance info
  - `0`..`9` -- toggle debug flags 0..9
+ - `S` -- enter streaming mode after reconnecting the device
+ - `T` -- enter tracking mode after reconnecting the device
 
 The following functions can be used to measure the number of cycles it takes on average for certain parts of the firmware to run.
  - `timestamp_start(uint8_t index)` -- store current cycle count for timer specified by `index`

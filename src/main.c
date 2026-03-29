@@ -82,11 +82,16 @@ int main(void)
   for (int i=0;i<DBG_CNT_COUNT;i++)
 	  dbg_cnt[i] = 0;
 
-  //dev_mode_set_streaming();
+  load_inertial_calibration();
+
+  extern int streaming_requested;
+  if (streaming_requested) {
+    dev_mode_set_streaming();
+  }
 
   hal_init();
   usb_app_init();
-  hal_init_usb();
+  hal_init_usb(); // USB INIT
 
   gpio_status_led_set(0);
   gpio_imu_reset_set(1);
@@ -110,11 +115,8 @@ int main(void)
 
 
   gpio_imu_reset_set(0);
-
-  load_inertial_calibration();
+  
   post_process_init();
-
-
   sensor_input_init();
 
   extern int init_complete;

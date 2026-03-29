@@ -23,6 +23,7 @@
 #include <stdint.h>
 #include <common.h>
 #include <hal.h>
+#include <persistence.h>
 
 uint32_t dbg_cnt[DBG_CNT_COUNT];
 
@@ -161,6 +162,12 @@ void cdcacm_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
       int flag = buf[i]-'0';
       int new_val = dbg_flag_toggle(flag);
       log_printf("dbg[%d]=%d\n\r", flag, new_val);
+    } else if (buf[i] == 'S') {
+      store_restart_streaming(1);
+      log_printf("req.streaming\n\r");
+    } else if (buf[i] == 'T') {
+      store_restart_streaming(0);
+      log_printf("req.tracking\n\r");
     }
   }
 }

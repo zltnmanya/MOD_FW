@@ -22,8 +22,15 @@
 #include <hal_flash.h>
 #include <logger.h>
 #include <params.h>
+#include <common.h>
+
+#define TLV_TYPE_CALIB_DATA 1
+#define TLV_TYPE_NEXT_BOOT_TYPE 2
+#define BOOT_TYPE_TRACKING 0x00000000
+#define BOOT_TYPE_STREAMING 0x5354524d
 
 CalibrationSettings calib;
+int streaming_requested = 0;
 
 static void unpack_vec3d(Vec3d *v, const packed_v3_double& p) {
 	v->x = p.x;
@@ -32,7 +39,7 @@ static void unpack_vec3d(Vec3d *v, const packed_v3_double& p) {
 }
 
 static void traverse_cb(void* data, uint16_t length, uint16_t type) {
-	if (type == 1) {
+	if (type == TLV_TYPE_CALIB_DATA) {
 		if (length != 110) return;
 		flash_storage_struct_v1 *fs = (flash_storage_struct_v1*)data;
 		calib.gyro_offset_hw.x = fs->gyro_offs_hw.x;
@@ -43,6 +50,10 @@ static void traverse_cb(void* data, uint16_t length, uint16_t type) {
 		unpack_vec3d(&calib.mag_offs, fs->mag_offs);
 		calib.accel_multiplier = fs->accel_gain;
 		unpack_vec3d(&calib.accel_offset, fs->accel_offs);
+    streaming_requested = 0;
+	} else if (type == TLV_TYPE_NEXT_BOOT_TYPE) {
+		if (length != 4) return;
+    streaming_requested = ((*(uint32_t*)data) == BOOT_TYPE_STREAMING);
 	}
 }
 
@@ -102,6 +113,10 @@ void store_calibration_data() {
 	flash_data.accel_gain = calib.accel_multiplier;
 	pack_vec3d(&flash_data.accel_offs, calib.accel_offset);
 	store_data_tlv(&flash_data, sizeof(flash_data), 1);
+}
+void store_restart_streaming(int streaming) {
+	uint32_t data = streaming ? BOOT_TYPE_STREAMING : BOOT_TYPE_TRACKING;
+	store_data_tlv(&data, 4, TLV_TYPE_NEXT_BOOT_TYPE);
 }
 
 void print_calibration_data() {

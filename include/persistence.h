@@ -46,6 +46,7 @@ void load_inertial_calibration();
 void load_post_process_settings();
 void store_calibration_data();
 void print_calibration_data();
+void store_restart_streaming(int streaming);
 
 #ifdef __cplusplus
 }
