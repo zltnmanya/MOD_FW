@@ -23,10 +23,11 @@
 #include <stdint.h>
 #include <msg_queue.h>
 
+#if defined(__GNUC__)
 #if __BYTE_ORDER == __LITTLE_ENDIAN
-#define be16toh(x) __bswap16(x)
-#define be32toh(x) __bswap32(x)
-#define be64toh(x) __bswap64(x)
+#define be16toh(x) __builtin_bswap16(x)
+#define be32toh(x) __builtin_bswap32(x)
+#define be64toh(x) __builtin_bswap64(x)
 #define le16toh(x) (x)
 #define le32toh(x) (x)
 #define le64toh(x) (x)
@@ -34,11 +35,14 @@
 #define be16toh(x) (x)
 #define be32toh(x) (x)
 #define be64toh(x) (x)
-#define le16toh(x) __bswap16(x)
-#define le32toh(x) __bswap32(x)
-#define le64toh(x) __bswap64(x)
+#define le16toh(x) __builtin_bswap16(x)
+#define le32toh(x) __builtin_bswap32(x)
+#define le64toh(x) __builtin_bswap64(x)
 #else
 # error "ERR: can't determine endianness"
+#endif
+#else
+# error "ERR: unsupported compiler"
 #endif
 
 enum btn_press_state {
