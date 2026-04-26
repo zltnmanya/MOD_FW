@@ -2,12 +2,11 @@
 
 DFU_UTIL_PATH='submodules/dfu-util/src/dfu-util'
 
-DIR_BUILD='build'
 method='dfu-util'
 file='main'
 
 usage() {
-  echo "usage: $(basename "$0") <method> [main|dfu_boot]"
+  echo "usage: $(basename "$0") <method> <build_directory> [main|dfu_boot]"
   echo " methods: dfu-util openocd_stlink openocd_raspi"
   exit 0
 }
@@ -23,14 +22,16 @@ dload_openocd_raspi() {
 	openocd -f interface/sysfsgpio-raspberrypi.cfg -c transport select swd -f target/stm32f4x.cfg -c "program ${DIR_BUILD}/$1.elf verify reset exit"
 }
 
-if [ $# -ge 1 ]; then
-  if [[ "$1" == '-h' || "$1" == '--help' ]]; then
-    usage
-  fi
-  method="$1"
+if [[ $# -lt 2 || "$1" == '-h' || "$1" == '--help' ]]; then
+  usage
 fi
-if [ $# -ge 2 ]; then
-  file="$2"
+
+method="$1"
+
+DIR_BUILD="$2"
+
+if [ $# -ge 3 ]; then
+  file="$3"
 fi
 
 case "$method" in

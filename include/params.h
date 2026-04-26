@@ -34,19 +34,6 @@
 // #define VECSWAP_GET_V3(v) -(v.z), -(v.y), -(v.x) // for headset (front)
 #define VECSWAP_GET_V3(v) (v.z), -(v.y), (v.x) // for modular setup (top)
 
-#define OUTPUT_INVERT_YAW 1
-#define OUTPUT_INVERT_PITCH 0
-#define OUTPUT_INVERT_ROLL 0
-
-/* these are just for development, so that the sw has default values even if
- * the whole flash is erased */
-#define DEFAULT_CALIB__GYRO_HW 139, 223, 85
-#define DEFAULT_CALIB__GYRO_FINE 0.00026471857739211605, -0.00029203992232677015, -8.089260951242131e-05
-#define DEFAULT_CALIB__ACCEL_OFFSET  -0.024252388693549568, -0.004464135930662227, -0.07690795675758028
-#define DEFAULT_CALIB__ACCEL_MULTIPLIER  6.067221999900171E-05
-#define DEFAULT_CALIB__MAG_GAIN 0.000196539883413, 0.000186055059277, 0.000172237841480
-#define DEFAULT_CALIB__MAG_OFFS -0.130364540995749, 0.055779183952733, 1.072316097630281
-
 #define DEFAULT_PP_SLACK (0.3 * PI / 180.0);
 
 /* sensor fusion parameters */

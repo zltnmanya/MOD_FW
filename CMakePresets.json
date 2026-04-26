@@ -1,0 +1,60 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 20,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "STM32F401",
+      "hidden": true,
+      "cacheVariables": {
+        "OPTS_CUSTOM_DFU": "ON"
+      },
+      "toolchainFile": "tools/target_stm32f401.cmake"
+    },
+    {
+      "name": "DEBUG",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "RELEASE",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "inherits": [
+        "STM32F401",
+        "RELEASE"
+      ],
+      "name": "default",
+      "displayName": "STM32F401 Release Build",
+      "description": "Release build with optimizations",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/stm32f401-release"
+    },
+    {
+      "inherits": [
+        "STM32F401",
+        "DEBUG"
+      ],
+      "name": "STM32F401 (Debug)",
+      "displayName": "STM32F401 Debug Build",
+      "description": "Debug build with no optimizations",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/stm32f401-debug"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "default",
+      "configurePreset": "default"
+    }
+  ]
+}
