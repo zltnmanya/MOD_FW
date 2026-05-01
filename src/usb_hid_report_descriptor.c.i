@@ -24,7 +24,7 @@
 const uint8_t hid_report_descriptor_tracking[] = {
 #ifdef HID_REPORT_SEND_QUAT
 		0x05, 0x01,        // Usage Page (Generic Desktop Ctrls)
-		0x09, 0x05,        // Usage (Game Pad)
+		0x09, 0x04,        // Usage (Joystick)
 		0xA1, 0x01,        // Collection (Application)
 
     /* HID report IN */
@@ -54,7 +54,7 @@ const uint8_t hid_report_descriptor_tracking[] = {
 		0x81, 0x02,        //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
 #else
 		0x05, 0x01,        // Usage Page (Generic Desktop Ctrls)
-		0x09, 0x05,        // Usage (Game Pad)
+		0x09, 0x04,        // Usage (Joystick)
 		0xA1, 0x01,        // Collection (Application)
 
     /* HID report IN */
@@ -65,7 +65,7 @@ const uint8_t hid_report_descriptor_tracking[] = {
 		0x65, 0xB4,        //   Unit (System: English Rotation)
 		0x26, 0xFF, 0x7F,  //   Logical Maximum (32767)
 		0x46, 0xB4, 0x00,  //   Physical Maximum (180)
-		0x09, 0x33,        //   Usage (Rx)
+		0x09, 0x30,        //   Usage (X)
 		0x75, 0x10,        //   Report Size (16)
 		0x95, 0x01,        //   Report Count (1)
 		0x81, 0x02,        //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
@@ -73,13 +73,13 @@ const uint8_t hid_report_descriptor_tracking[] = {
     /* int16_t pitch[1] */
 		0x35, 0xA6,        //   Physical Minimum (-90)
 		0x45, 0x5A,        //   Physical Maximum (90)
-		0x09, 0x34,        //   Usage (Ry)
+		0x09, 0x31,        //   Usage (Y)
 		0x81, 0x02,        //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
 
     /* int16_t roll[1] */
 		0x36, 0x4C, 0xFF,  //   Physical Minimum (-180)
 		0x46, 0xB4, 0x00,  //   Physical Maximum (180)
-		0x09, 0x35,        //   Usage (Rz)
+		0x09, 0x32,        //   Usage (Z)
 		0x81, 0x02,        //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
 
 #ifdef HID_REPORT_SEND_INDICATORS
@@ -112,7 +112,7 @@ const uint8_t hid_report_descriptor_tracking[] = {
 
 const uint8_t hid_report_descriptor_streaming[] = {
 		0x05, 0x01,        // Usage Page (Generic Desktop Ctrls)
-		0x09, 0x05,        // Usage (Game Pad)
+		0x09, 0x04,        // Usage (Joystick)
 		0xA1, 0x01,        // Collection (Application)
 
     /* HID report IN : 64 bytes raw (64*8 bits) */
