@@ -27,16 +27,9 @@
 /* IMU orientation on board */
 // #define VECSWAP_IMU(x, y, z) VECSWAP_IMU2((x),(y),(z))
 // #define VECSWAP_IMU(x, y, z) VECSWAP_IMU2((z),-(y),(x))
+
 // #define VECSWAP_YPR(y, p, r) (r),(p),(y) // for headset (front)
 #define VECSWAP_YPR(y, p, r) (y),(p),(r)
-
-// #define VECSWAP_GET_X(x, y, z) (z)
-// #define VECSWAP_GET_Y(x, y, z) (-(y))
-// #define VECSWAP_GET_Z(x, y, z) (x)
-
-// #define VECSWAP_GET_V3X(v) (v.z)
-// #define VECSWAP_GET_V3Y(v) (-(v.y))
-// #define VECSWAP_GET_V3Z(v) (v.x)
 
 // #define VECSWAP_GET_V3(v) -(v.z), -(v.y), -(v.x) // for headset (front)
 #define VECSWAP_GET_V3(v) (v.z), -(v.y), (v.x) // for modular setup (top)
