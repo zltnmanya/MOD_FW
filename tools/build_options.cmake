@@ -30,6 +30,7 @@ set(DEFAULT_CALIB__ACCEL_OFFSET "0.0, 0.0, 0.0" CACHE STRING "Default accel offs
 set(DEFAULT_CALIB__ACCEL_MULTIPLIER "0.0" CACHE STRING "Default accel multiplier calibration")
 set(DEFAULT_CALIB__MAG_GAIN "0.0, 0.0, 0.0" CACHE STRING "Default magnetometer gain calibration")
 set(DEFAULT_CALIB__MAG_OFFS "0.0, 0.0, 0.0" CACHE STRING "Default magnetometer offset calibration")
+set(DEFAULT_SLACK "0.3" CACHE STRING "Default slack (degrees)") 
 
 set(RE_INTEGER " *-?[0-9]+ *")
 set(RE_FLOAT " *-?[0-9]*\\.?[0-9]+(e-?[0-9]+)? *")
@@ -42,6 +43,7 @@ validate_cache_var(DEFAULT_CALIB__ACCEL_OFFSET "${RE_VECTOR3}" "-0.0242523886935
 validate_cache_var(DEFAULT_CALIB__ACCEL_MULTIPLIER "${RE_FLOAT}" "6.067221999900171E-05")
 validate_cache_var(DEFAULT_CALIB__MAG_GAIN "${RE_VECTOR3}" "0.000196539883413, 0.000186055059277, 0.000172237841480")
 validate_cache_var(DEFAULT_CALIB__MAG_OFFS "${RE_VECTOR3}" "-0.130364540995749, 0.055779183952733, 1.072316097630281")
+validate_cache_var(DEFAULT_SLACK "${RE_FLOAT}" "0.3")
 
 message(STATUS "Default calibration values:")
 message(STATUS "  GYRO_HW: ${DEFAULT_CALIB__GYRO_HW}")
@@ -50,3 +52,4 @@ message(STATUS "  ACCEL_OFFSET: ${DEFAULT_CALIB__ACCEL_OFFSET}")
 message(STATUS "  ACCEL_MULTIPLIER: ${DEFAULT_CALIB__ACCEL_MULTIPLIER}")
 message(STATUS "  MAG_GAIN: ${DEFAULT_CALIB__MAG_GAIN}")
 message(STATUS "  MAG_OFFS: ${DEFAULT_CALIB__MAG_OFFS}")
+message(STATUS "Default slack for rotation: ${DEFAULT_SLACK} degrees")

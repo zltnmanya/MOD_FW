@@ -34,7 +34,7 @@
 // #define VECSWAP_GET_V3(v) -(v.z), -(v.y), -(v.x) // for headset (front)
 #define VECSWAP_GET_V3(v) (v.z), -(v.y), (v.x) // for modular setup (top)
 
-#define DEFAULT_PP_SLACK (0.3 * PI / 180.0);
+#define DEFAULT_PP_SLACK (DEFAULT_SLACK * PI / 180.0);
 
 /* sensor fusion parameters */
 static const double gyro_rest_value_threshold = cos(20.0*PI/180/1000/180*250/2); /* gyro resting criteria: max movement */
