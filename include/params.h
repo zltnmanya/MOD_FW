@@ -28,11 +28,15 @@
 // #define VECSWAP_IMU(x, y, z) VECSWAP_IMU2((x),(y),(z))
 // #define VECSWAP_IMU(x, y, z) VECSWAP_IMU2((z),-(y),(x))
 
-// #define VECSWAP_YPR(y, p, r) (r),(p),(y) // for headset (front)
+#if defined(DEFAULT_DEVICE_ORIENTATION_TOP) // for headtracker (top)
 #define VECSWAP_YPR(y, p, r) (y),(p),(r)
-
-// #define VECSWAP_GET_V3(v) -(v.z), -(v.y), -(v.x) // for headset (front)
-#define VECSWAP_GET_V3(v) (v.z), -(v.y), (v.x) // for modular setup (top)
+#define VECSWAP_GET_V3(v) (v.z), -(v.y), (v.x)
+#elif defined(DEFAULT_DEVICE_ORIENTATION_FRONT) // for headset (front)
+#define VECSWAP_YPR(y, p, r) (r),(p),(y)
+#define VECSWAP_GET_V3(v) -(v.z), -(v.y), -(v.x)
+#else
+#error No default orientation configured
+#endif
 
 #define DEFAULT_PP_SLACK (DEFAULT_SLACK * PI / 180.0);
 

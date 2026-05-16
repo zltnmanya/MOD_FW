@@ -24,6 +24,9 @@ option(OPT_OUTPUT_INVERT_YAW "Invert yaw output" ON)
 option(OPT_OUTPUT_INVERT_PITCH "Invert pitch output" OFF)
 option(OPT_OUTPUT_INVERT_ROLL "Invert roll output" OFF)
 
+set(DEFAULT_DEVICE_ORIENTATION "TOP" CACHE STRING "Default device orientation")
+set_property(CACHE DEFAULT_DEVICE_ORIENTATION PROPERTY STRINGS FRONT TOP)
+
 set(DEFAULT_CALIB__GYRO_HW "0, 0, 0" CACHE STRING "Default gyro hardware calibration offset")
 set(DEFAULT_CALIB__GYRO_FINE "0.0, 0.0, 0.0" CACHE STRING "Default gyro fine calibration offset")
 set(DEFAULT_CALIB__ACCEL_OFFSET "0.0, 0.0, 0.0" CACHE STRING "Default accel offset calibration")
@@ -45,6 +48,7 @@ validate_cache_var(DEFAULT_CALIB__MAG_GAIN "${RE_VECTOR3}" "0.000196539883413, 0
 validate_cache_var(DEFAULT_CALIB__MAG_OFFS "${RE_VECTOR3}" "-0.130364540995749, 0.055779183952733, 1.072316097630281")
 validate_cache_var(DEFAULT_SLACK "${RE_FLOAT}" "0.3")
 
+message(STATUS "Default device orientation: ${DEFAULT_DEVICE_ORIENTATION}")
 message(STATUS "Default calibration values:")
 message(STATUS "  GYRO_HW: ${DEFAULT_CALIB__GYRO_HW}")
 message(STATUS "  GYRO_FINE: ${DEFAULT_CALIB__GYRO_FINE}")
