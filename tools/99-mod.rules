@@ -1,0 +1,8 @@
+SUBSYSTEM=="input", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="0001", ATTRS{product}=="MOD", ENV{ID_INPUT_JOYSTICK}="1", ENV{ID_INPUT}="1", MODE="0666", SYMLINK+="input/js_mod"
+SUBSYSTEM=="input", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="0001", ATTRS{product}=="MOD (streaming mode)", ENV{ID_INPUT_JOYSTICK}="1", ENV{ID_INPUT}="1", MODE="0666"
+
+SUBSYSTEM=="usb", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="0001", ATTRS{product}=="MOD", MODE="0666"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="0001", ATTRS{product}=="MOD (streaming mode)", MODE="0666"
+
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="0001", ATTRS{product}=="MOD", MODE="0666", SYMLINK+="tty_mod"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="0001", ATTRS{product}=="MOD (streaming mode)", MODE="0666", SYMLINK+="tty_mod"
