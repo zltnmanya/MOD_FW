@@ -16,7 +16,7 @@ The orientation data is sent as yaw, pitch, roll triplets. These can be used as 
 
 #### As part of DIY VR headset:
 In this mode, the device sends the orientation as quaternions. This can be used to interwork with the [Relativity VR driver](https://github.com/relativty/Relativty/tree/master/Relativty_Driver).
-This mode can be enabled by compiling the firmware with HID_REPORT_SEND_QUAT defined.
+This mode can be enabled by compiling the firmware with  OPT_HID_SEND_QUAT set to ON.
 
 ### Streaming mode
 This mode can be used for obtaining raw sensor readings from the device to be used for calibration. The mode is enabled by sending `S` through the virtual serial port.
@@ -25,11 +25,13 @@ This mode can be used for obtaining raw sensor readings from the device to be us
 For building the firmware binary you will need:
  - WSL (on Windows) OR your favorite Linux distro
  - gcc-arm-none-eabi
+ - cmake
  - make
  - python (for converting to DFU image)
 
 run:  
-  make
+  cmake --preset default
+  cmake --build build/stm32f401-release/ --target all
 
 if building libopcm3 fails with:  
 > GENHDR  stm32/f4
@@ -41,7 +43,7 @@ The two DFU images will be:
   - custom DFU -- build/dfu_boot.dfu
   - main image -- build/main.dfu  
 
-The images can be flashed using `./tools/flash.sh dfu_boot` and `./tools/flash.sh` respectively.
+The images can be flashed using the script: `./tools/flash.sh`.
 
 ## Communication
 The device acts as a composite USB device of:
