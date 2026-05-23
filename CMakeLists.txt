@@ -22,6 +22,18 @@ endif()
 set(CMAKE_C_FLAGS "${TARGET_BASE_FLAGS} ${BASE_FLAGS_WARNINGS} ${BASE_FLAGS_DEBUGGING} ${OPT_FLAGS}")
 set(CMAKE_CXX_FLAGS "${TARGET_BASE_FLAGS} ${BASE_FLAGS_WARNINGS} ${BASE_FLAGS_DEBUGGING} ${OPT_FLAGS} ${TARGET_CXX_FLAGS}")
 
+if (TARGET_SUPPORTS_DFU)
+  find_program(DFU_UTIL_EXECUTABLE
+    NAMES dfu-util
+    DOC "Path to dfu-util tool"
+  )
+  if(NOT DFU_UTIL_EXECUTABLE)
+    message(WARNING "dfu-util not found in PATH.")
+  else()
+    message(STATUS "Found dfu-util: ${DFU_UTIL_EXECUTABLE}")
+  endif()
+endif()
+
 include_directories("${CMAKE_SOURCE_DIR}/include")
 
 # subdirectories

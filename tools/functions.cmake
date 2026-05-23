@@ -16,4 +16,13 @@ function(create_dfu_image TARGET_NAME ADDRESS)
     COMMENT "Creating DFU image for ${TARGET_NAME} (addr:${ADDRESS})"
     BYPRODUCTS ${BIN_PATH} ${DFU_PATH}
   )
+  
+  if(DFU_UTIL_EXECUTABLE)
+    add_custom_target(
+      dfu_flash-${TARGET_NAME}
+      DEPENDS ${TARGET_NAME}
+      COMMAND ${DFU_UTIL_EXECUTABLE} -d '0483:df11' -a 0 -D ${DFU_PATH}
+      COMMENT "Flash image '${TARGET_NAME}' image via dfu-util"
+    )
+  endif()
 endfunction()
