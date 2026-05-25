@@ -1,0 +1,5 @@
+TODO:
+ - proper magnetometer error correction
+ - add CMakeUserPresets.json section to README.md
+ - USB configurations for tracking/streaming mode?
+ - optimize logging over virtual serial port

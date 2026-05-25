@@ -30,8 +30,8 @@ For building the firmware binary you will need:
  - python (for converting to DFU image)
 
 run:  
-  cmake --preset default
-  cmake --build build/stm32f401-release/ --target all
+`cmake --preset default`
+`cmake --build build/stm32f401-release/ --target all`
 
 if building libopcm3 fails with:  
 > GENHDR  stm32/f4
