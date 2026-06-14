@@ -70,18 +70,6 @@ void load_inertial_calibration() {
 	calib.gyro_offset_fine = Vec3d(0,0,0);
 #endif
 
-#ifdef DEFAULT_CALIB__MAG_GAIN  
-	calib.mag_gain = Vec3d(DEFAULT_CALIB__MAG_GAIN);
-#else
-	calib.mag_gain = Vec3d(1,1,1);
-#endif
-
-#ifdef DEFAULT_CALIB__MAG_OFFS  
-	calib.mag_offs = Vec3d(DEFAULT_CALIB__MAG_OFFS);
-#else
-	calib.mag_offs = Vec3d(0,0,0);
-#endif
-
 	traverse_flash(traverse_cb);
 }
 

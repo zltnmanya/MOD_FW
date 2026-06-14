@@ -56,6 +56,10 @@ struct sensor_correction_coeffs accel_calib = {
    DEFAULT_CALIB__ACCEL_BIAS,
    DEFAULT_CALIB__ACCEL_ALIGN
 };
+struct sensor_correction_coeffs magnetometer_calib = {
+   DEFAULT_CALIB__ACCEL_BIAS,
+   DEFAULT_CALIB__ACCEL_ALIGN
+};
 
 static inline Vec3f correct(int16_t *raw, const struct sensor_correction_coeffs& coeffs) {
   float x = raw[0] / 16384.0f - coeffs.b_x;
@@ -288,9 +292,8 @@ void sensor_input_fetch() {
       report_s_add_mag(arr, mag_temp);
     }
     //log_printf("mag: %d %d %d\n\r", VECSWAP_IMU(arr[0], arr[1], arr[2]));
-    Vec3d v_mag_tmp(arr[0], arr[1], arr[2]);
+    Vec3d v_mag_tmp = correct(arr, magnetometer_calib);
     /* physical range: -2..+2 Gauss; logical range: -32768..+32767 */
-    v_mag_tmp = scale(v_mag_tmp, calib.mag_gain) + calib.mag_offs; // TODO: use proper error model for magentometer
     Vec3d v_mag(VECSWAP_GET_V3(v_mag_tmp));
     sensor_fusion_feed_mag(v_mag);
   }
