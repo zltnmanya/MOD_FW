@@ -45,6 +45,30 @@ extern "C" {
 
 using namespace quaternion;
 
+struct sensor_correction_coeffs {
+    float   b_x,    b_y,    b_z;
+    float   s_x, /* 0,      0 */
+            a_xy,   s_y, /* 0 */
+            a_xz,   a_yz,   s_z;
+};
+
+struct sensor_correction_coeffs accel_calib = {
+   DEFAULT_CALIB__ACCEL_BIAS,
+   DEFAULT_CALIB__ACCEL_ALIGN
+};
+
+static inline Vec3f correct(int16_t *raw, const struct sensor_correction_coeffs& coeffs) {
+  float x = raw[0] / 16384.0f - coeffs.b_x;
+  float y = raw[1] / 16384.0f - coeffs.b_y;
+  float z = raw[2] / 16384.0f - coeffs.b_z;
+
+  float fx = x * coeffs.s_x;
+  float fy = x * coeffs.a_xy + y * coeffs.s_y;
+  float fz = x * coeffs.a_xz + y * coeffs.a_yz + z * coeffs.s_z;
+
+  return Vec3f(fx, fy, fz);
+}
+
 void sensor_input_reset_fifo() {
 	MPU6050_resetFIFO();
 }
@@ -233,7 +257,7 @@ void sensor_input_fetch() {
         Quaternion<double> gyro_quat = gyro_to_quat(gyro_vec_tmp);
 
         /* apply calibration values and scale */
-        Vec3f v_accel_tmp = Vec3d(arr_a[0], arr_a[1], arr_a[2]) * calib.accel_multiplier + calib.accel_offset; /* multiplier already contains the scaling */
+        Vec3f v_accel_tmp = correct(arr_a, accel_calib);
         /* board orientation */
         Vec3f v_accel(VECSWAP_GET_V3(v_accel_tmp));
 

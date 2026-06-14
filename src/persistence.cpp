@@ -70,18 +70,6 @@ void load_inertial_calibration() {
 	calib.gyro_offset_fine = Vec3d(0,0,0);
 #endif
 
-#ifdef DEFAULT_CALIB__ACCEL_OFFSET   
-	calib.accel_offset = Vec3d(DEFAULT_CALIB__ACCEL_OFFSET);
-#else
-	calib.accel_offset = Vec3d(0,0,0);
-#endif
-
-#ifdef DEFAULT_CALIB__ACCEL_MULTIPLIER  
-	calib.accel_multiplier = DEFAULT_CALIB__ACCEL_MULTIPLIER;
-#else
-	calib.accel_multiplier = 1.0;
-#endif
-
 #ifdef DEFAULT_CALIB__MAG_GAIN  
 	calib.mag_gain = Vec3d(DEFAULT_CALIB__MAG_GAIN);
 #else
