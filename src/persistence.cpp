@@ -32,24 +32,13 @@
 CalibrationSettings calib;
 int streaming_requested = 0;
 
-static void unpack_vec3d(Vec3d *v, const packed_v3_double& p) {
-	v->x = p.x;
-	v->y = p.y;
-	v->z = p.z;
-}
-
 static void traverse_cb(void* data, uint16_t length, uint16_t type) {
 	if (type == TLV_TYPE_CALIB_DATA) {
-		if (length != 110) return;
+		if (length != 30) return;
 		flash_storage_struct_v1 *fs = (flash_storage_struct_v1*)data;
 		calib.gyro_offset_hw.x = fs->gyro_offs_hw.x;
 		calib.gyro_offset_hw.y = fs->gyro_offs_hw.y;
 		calib.gyro_offset_hw.z = fs->gyro_offs_hw.z;
-		unpack_vec3d(&calib.gyro_offset_fine, fs->gyro_offs_fine);
-		unpack_vec3d(&calib.mag_gain, fs->mag_gain);
-		unpack_vec3d(&calib.mag_offs, fs->mag_offs);
-		calib.accel_multiplier = fs->accel_gain;
-		unpack_vec3d(&calib.accel_offset, fs->accel_offs);
     streaming_requested = 0;
 	} else if (type == TLV_TYPE_NEXT_BOOT_TYPE) {
 		if (length != 4) return;
@@ -70,39 +59,42 @@ void load_inertial_calibration() {
 	calib.gyro_offset_fine = Vec3d(0,0,0);
 #endif
 
+  calib.accelerometer = {
+     DEFAULT_CALIB__ACCEL_BIAS,
+     DEFAULT_CALIB__ACCEL_ALIGN
+  };
+  calib.magnetometer = {
+     DEFAULT_CALIB__ACCEL_BIAS,
+     DEFAULT_CALIB__ACCEL_ALIGN
+  };
 	traverse_flash(traverse_cb);
 }
 
-static void pack_vec3d(packed_v3_double *packed, const Vec3d& v) {
-	packed->x = v.x;
-	packed->y = v.y;
-	packed->z = v.z;
-}
 void store_calibration_data() {
 	flash_storage_struct_v1 flash_data;
 	flash_data.gyro_offs_hw.x = calib.gyro_offset_hw.x;
 	flash_data.gyro_offs_hw.y = calib.gyro_offset_hw.y;
 	flash_data.gyro_offs_hw.z = calib.gyro_offset_hw.z;
-	pack_vec3d(&flash_data.gyro_offs_fine, calib.gyro_offset_fine);
-	pack_vec3d(&flash_data.mag_gain, calib.mag_gain);
-	pack_vec3d(&flash_data.mag_offs, calib.mag_offs);
-	flash_data.accel_gain = calib.accel_multiplier;
-	pack_vec3d(&flash_data.accel_offs, calib.accel_offset);
-	store_data_tlv(&flash_data, sizeof(flash_data), 1);
+	store_data_tlv(&flash_data, sizeof(flash_data), TLV_TYPE_CALIB_DATA);
 }
 void store_restart_streaming(int streaming) {
 	uint32_t data = streaming ? BOOT_TYPE_STREAMING : BOOT_TYPE_TRACKING;
 	store_data_tlv(&data, 4, TLV_TYPE_NEXT_BOOT_TYPE);
 }
 
+static void print_calib_coeffs(const char* name, const struct sensor_correction_coeffs& coeffs) {
+  log_printf("%s   bias: %.8f %.8f %.8f\r\n", name, coeffs.b_x, coeffs.b_y, coeffs.b_z);
+  log_printf("%s coeffs:\r\n", name);
+  log_printf("  %.8f\r\n", coeffs.s_x);
+  log_printf("  %.8f %.8f\r\n", coeffs.a_xy, coeffs.s_y);
+  log_printf("  %.8f %.8f %.8f\r\n", coeffs.a_xz, coeffs.a_yz, coeffs.s_z);
+}
 void print_calibration_data() {
   log_printf("calib data:\r\n");
   log_printf("gyro_offs_hw: %d %d %d\r\n", calib.gyro_offset_hw.x, calib.gyro_offset_hw.y, calib.gyro_offset_hw.z);
   log_printf("gyro_offs_sw: %.8f %.8f %.8f\r\n", calib.gyro_offset_fine.x, calib.gyro_offset_fine.y, calib.gyro_offset_fine.z);
-  log_printf("accel_offs: %.8f %.8f %.8f\r\n", calib.accel_offset.x, calib.accel_offset.y, calib.accel_offset.z);
-  log_printf("acc_mult: %.8f\r\n", calib.accel_multiplier);
-  log_printf("mag_gain: %.8f %.8f %.8f\r\n", calib.mag_gain.x, calib.mag_gain.y, calib.mag_gain.z);
-  log_printf("mag_offs: %.8f %.8f %.8f\r\n", calib.mag_offs.x, calib.mag_offs.y, calib.mag_offs.z);
+  print_calib_coeffs("accelerometer", calib.accelerometer);
+  print_calib_coeffs("magnetometer", calib.magnetometer);
 }
 
 void load_post_process_settings() {

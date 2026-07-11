@@ -45,22 +45,6 @@ extern "C" {
 
 using namespace quaternion;
 
-struct sensor_correction_coeffs {
-    float   b_x,    b_y,    b_z;
-    float   s_x, /* 0,      0 */
-            a_xy,   s_y, /* 0 */
-            a_xz,   a_yz,   s_z;
-};
-
-struct sensor_correction_coeffs accel_calib = {
-   DEFAULT_CALIB__ACCEL_BIAS,
-   DEFAULT_CALIB__ACCEL_ALIGN
-};
-struct sensor_correction_coeffs magnetometer_calib = {
-   DEFAULT_CALIB__ACCEL_BIAS,
-   DEFAULT_CALIB__ACCEL_ALIGN
-};
-
 static inline Vec3f correct(int16_t *raw, const struct sensor_correction_coeffs& coeffs) {
   float x = raw[0] / 16384.0f - coeffs.b_x;
   float y = raw[1] / 16384.0f - coeffs.b_y;
@@ -264,7 +248,7 @@ void sensor_input_fetch() {
         Quaternion<double> gyro_quat = gyro_to_quat(gyro_vec_tmp);
 
         /* apply calibration values and scale */
-        Vec3f v_accel_tmp = correct(arr_a, accel_calib);
+        Vec3f v_accel_tmp = correct(arr_a, calib.accelerometer);
         /* board orientation */
         Vec3f v_accel(VECSWAP_GET_V3(v_accel_tmp));
 
@@ -295,7 +279,7 @@ void sensor_input_fetch() {
       report_s_add_mag(arr, mag_temp);
     }
     //log_printf("mag: %d %d %d\r\n", VECSWAP_IMU(arr[0], arr[1], arr[2]));
-    Vec3d v_mag_tmp = correct(arr, magnetometer_calib);
+    Vec3d v_mag_tmp = correct(arr, calib.magnetometer);
     /* physical range: -2..+2 Gauss; logical range: -32768..+32767 */
     Vec3d v_mag(VECSWAP_GET_V3(v_mag_tmp));
     sensor_fusion_feed_mag(v_mag);

@@ -23,12 +23,18 @@
 #ifdef __cplusplus
 #include <util_math.hpp>
 
+struct sensor_correction_coeffs {
+    float   b_x,    b_y,    b_z;
+    float   s_x, /* 0,      0 */
+            a_xy,   s_y, /* 0 */
+            a_xz,   a_yz,   s_z;
+};
+
 struct CalibrationSettings {
 	Vec3<int16_t> gyro_offset_hw; /* 1 diff in gyro_offset_hw -> 4 diff in measurement */
 	Vec3d         gyro_offset_fine;
-	Vec3d         accel_offset;
-	Vec3d         mag_gain, mag_offs;
-	double        accel_multiplier;
+  struct sensor_correction_coeffs accelerometer;
+  struct sensor_correction_coeffs magnetometer;
 };
 
 struct settings_post_proc {

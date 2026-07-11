@@ -40,10 +40,6 @@ struct packed_v3_double { // 24 bytes
 struct flash_storage_struct_v1 { //
 	struct packed_v3_s16 gyro_offs_hw;	// 6 bytes
 	struct packed_v3_double gyro_offs_fine; // 24 bytes
-	struct packed_v3_double mag_offs; // 24 bytes
-	struct packed_v3_double mag_gain; // 24 bytes
-	double accel_gain; // 8 bytes
-	struct packed_v3_double accel_offs; // 24 bytes
 	// ... padding
 	// uint32_t type_length
 } __attribute__((packed));

@@ -31,10 +31,6 @@
 
 #define PKT_TYPE_GYRO_HW_OFFS_SET 10
 #define PKT_TYPE_GYRO_SW_OFFS_SET 11
-#define PKT_TYPE_MAG_GAIN_SET	  12
-#define PKT_TYPE_MAG_OFFS_SET	  13
-#define PKT_TYPE_ACCEL_GAIN_SET   14
-#define PKT_TYPE_ACCEL_OFFS_SET   15
 
 static uint8_t* unpack_i16(uint8_t *buffer, int16_t *value) {
 	*value = buffer[0] | (buffer[1] << 8); // TODO: ?etohs() instead
@@ -84,26 +80,6 @@ static void process_gyro_calib_sw_offs(uint8_t *buffer) {
 	buffer = unpack_double(buffer, &calib.gyro_offset_fine.z);
 }
 
-static void process_mag_calib_gain(uint8_t *buffer) {
-	buffer = unpack_double(buffer, &calib.mag_gain.x);
-	buffer = unpack_double(buffer, &calib.mag_gain.y);
-	buffer = unpack_double(buffer, &calib.mag_gain.z);
-}
-static void process_mag_calib_offset(uint8_t *buffer) {
-	buffer = unpack_double(buffer, &calib.mag_offs.x);
-	buffer = unpack_double(buffer, &calib.mag_offs.y);
-	buffer = unpack_double(buffer, &calib.mag_offs.z);
-}
-
-static void process_accel_calib_gain(uint8_t *buffer) {
-	buffer = unpack_double(buffer, &calib.accel_multiplier);
-}
-static void process_accel_calib_offs(uint8_t *buffer) {
-	buffer = unpack_double(buffer, &calib.accel_offset.x);
-	buffer = unpack_double(buffer, &calib.accel_offset.y);
-	buffer = unpack_double(buffer, &calib.accel_offset.z);
-}
-
 static void process_reports_select(uint8_t *buffer) {
 	buffer = unpack_u32(buffer, &reports_selected);
 }
@@ -138,18 +114,6 @@ void hid_out_process(uint8_t *buffer, uint8_t len) {
 			break;
 		case PKT_TYPE_GYRO_SW_OFFS_SET:
 			process_gyro_calib_sw_offs(buffer);
-			break;
-		case PKT_TYPE_MAG_GAIN_SET:
-			process_mag_calib_gain(buffer);
-			break;
-		case PKT_TYPE_MAG_OFFS_SET:
-			process_mag_calib_offset(buffer);
-			break;
-		case PKT_TYPE_ACCEL_GAIN_SET:
-			process_accel_calib_gain(buffer);
-			break;
-		case PKT_TYPE_ACCEL_OFFS_SET:
-			process_accel_calib_offs(buffer);
 			break;
 		case PKT_TYPE_FLASH:
 			post_irq_flag(2);
