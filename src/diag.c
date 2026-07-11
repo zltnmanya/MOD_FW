@@ -70,7 +70,7 @@ void timestamp_calc_avg() {
 	for (int i=0;i<BM_TSTAMP_COUNT;i++) {
     if (tstamp_count[i] == 0) continue;
     log_printf("TS:%d 0x%08lx%08lx",i,(uint32_t)(tstamp_sum[i] >> 32),(uint32_t)(tstamp_sum[i]));
-    log_printf("/%lu~%lu (%.2f%%)\n\r",tstamp_count[i],  avgs[i], percentage[i]);
+    log_printf("/%lu~%lu (%.2f%%)\r\n",tstamp_count[i],  avgs[i], percentage[i]);
   }
 }
 
@@ -120,18 +120,18 @@ void dump_cpu_state() {
         "=m" (regs[8]), "=m" (regs[9]), "=m" (regs[10]), "=m" (regs[11]),
         "=m" (regs[12]), "=m" (regs[13]), "=m" (regs[14])
         );
-    log_printf("\n\rCPU:\n\r");
+    log_printf("\r\nCPU:\r\n");
     log_printf("%08lx %08lx %08lx ", regs[0], regs[1], regs[2]);
-    log_printf("%08lx\n\r%08lx %08lx ", regs[3], regs[4], regs[5]);
-    log_printf("%08lx %08lx\n\r%08lx ", regs[6], regs[7], regs[8]);
-    log_printf("%08lx %08lx %08lx\n\r", regs[9], regs[10], regs[11]);
-    log_printf("%08lx %08lx %08lx\n\r", regs[12], regs[13], regs[14]);
+    log_printf("%08lx\r\n%08lx %08lx ", regs[3], regs[4], regs[5]);
+    log_printf("%08lx %08lx\r\n%08lx ", regs[6], regs[7], regs[8]);
+    log_printf("%08lx %08lx %08lx\r\n", regs[9], regs[10], regs[11]);
+    log_printf("%08lx %08lx %08lx\r\n", regs[12], regs[13], regs[14]);
 
-    log_printf("stack:\n\r");
+    log_printf("stack:\r\n");
     uint32_t *stack = (uint32_t*)regs[13];
     for (int i=0;i<50;i++) {
       if ((uint32_t)(stack+2) > 0x2000fffc) break;
-      log_printf("%d:%08lx %08lx %08lx\n\r",i, stack[0], stack[1], stack[2]);
+      log_printf("%d:%08lx %08lx %08lx\r\n",i, stack[0], stack[1], stack[2]);
       stack+=3;
     }
 }
@@ -152,22 +152,22 @@ void cdcacm_data_rx_cb(usbd_device *usbd_dev, uint8_t ep) {
       post_irq_flag(16);
     } else if (buf[i] == 'd') {
       for (int i=0;i<DBG_CNT_COUNT;i++)
-        log_printf("dbg_cnt[%d]:%lu\n\r", i, dbg_cnt[i]);
-      log_printf("tick:%lu rep:%08lx\n\r", get_common_tick(), reports_selected);
-      log_printf("mode:%c\n\r", dev_mode_is_streaming() ? 'S' : 'T');
-      log_printf("dbg_flags:%08lx\n\r", dbg_flags_get());
+        log_printf("dbg_cnt[%d]:%lu\r\n", i, dbg_cnt[i]);
+      log_printf("tick:%lu rep:%08lx\r\n", get_common_tick(), reports_selected);
+      log_printf("mode:%c\r\n", dev_mode_is_streaming() ? 'S' : 'T');
+      log_printf("dbg_flags:%08lx\r\n", dbg_flags_get());
     } else if (buf[i] == 't') {
       timestamp_calc_avg();
     } else if (buf[i] >= '0' && buf[i] <= '9') {
       int flag = buf[i]-'0';
       int new_val = dbg_flag_toggle(flag);
-      log_printf("dbg[%d]=%d\n\r", flag, new_val);
+      log_printf("dbg[%d]=%d\r\n", flag, new_val);
     } else if (buf[i] == 'S') {
       store_restart_streaming(1);
-      log_printf("req.streaming\n\r");
+      log_printf("req.streaming\r\n");
     } else if (buf[i] == 'T') {
       store_restart_streaming(0);
-      log_printf("req.tracking\n\r");
+      log_printf("req.tracking\r\n");
     }
   }
 }

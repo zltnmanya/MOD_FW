@@ -168,8 +168,8 @@ void sensor_input_init() {
   MPU6050_setFIFOEnabled(0);
   MPU6050_resetFIFO();
   MPU6050_setFIFOEnabled(1);
-  log_printf("rate: %d\n\r", MPU6050_getRate());
-  log_printf("dlpf: %d\n\r", MPU6050_getDLPFMode()); 
+  log_printf("rate: %d\r\n", MPU6050_getRate());
+  log_printf("dlpf: %d\r\n", MPU6050_getDLPFMode()); 
 }
 
 #ifndef USE_I2C_IRQS
@@ -291,7 +291,7 @@ void sensor_input_fetch() {
     if (dev_mode_is_streaming()) {
       report_s_add_mag(arr, mag_temp);
     }
-    //log_printf("mag: %d %d %d\n\r", VECSWAP_IMU(arr[0], arr[1], arr[2]));
+    //log_printf("mag: %d %d %d\r\n", VECSWAP_IMU(arr[0], arr[1], arr[2]));
     Vec3d v_mag_tmp = correct(arr, magnetometer_calib);
     /* physical range: -2..+2 Gauss; logical range: -32768..+32767 */
     Vec3d v_mag(VECSWAP_GET_V3(v_mag_tmp));

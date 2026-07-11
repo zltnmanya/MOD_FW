@@ -94,7 +94,7 @@ static inline int is_resting() {
 #if 0
   if (do_log_cycle) {
     if (dbg_flag_get(1))
-      log_printf("va:%.3f vm:%.3f gr:%d\n\r", (double)vacc_sq, (double)vmag_sq, gyro_in_rest_ctr);
+      log_printf("va:%.3f vm:%.3f gr:%d\r\n", (double)vacc_sq, (double)vmag_sq, gyro_in_rest_ctr);
   }
 #endif
   return 1;
@@ -174,7 +174,7 @@ if (TICK_TIMEOUT(last_log_ts, 100)) {
       log_printf("%.2f %.2f %.2f ==> ", v_mag_last.x, v_mag_last.y, v_mag_last.z);
       log_printf("%.2f %.2f %.2f | ", i.x, i.y, i.z);
       log_printf("%.2f %.2f %.2f | ", j.x, j.y, j.z); 
-      log_printf("%.2f %.2f %.2f\n\r", k.x, k.y, k.z);
+      log_printf("%.2f %.2f %.2f\r\n", k.x, k.y, k.z);
     }
   }
 #endif

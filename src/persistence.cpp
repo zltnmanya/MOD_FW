@@ -96,13 +96,13 @@ void store_restart_streaming(int streaming) {
 }
 
 void print_calibration_data() {
-  log_printf("calib data:\n\r");
-  log_printf("gyro_offs_hw: %d %d %d\n\r", calib.gyro_offset_hw.x, calib.gyro_offset_hw.y, calib.gyro_offset_hw.z);
-  log_printf("gyro_offs_sw: %.8f %.8f %.8f\n\r", calib.gyro_offset_fine.x, calib.gyro_offset_fine.y, calib.gyro_offset_fine.z);
-  log_printf("accel_offs: %.8f %.8f %.8f\n\r", calib.accel_offset.x, calib.accel_offset.y, calib.accel_offset.z);
-  log_printf("acc_mult: %.8f\n\r", calib.accel_multiplier);
-  log_printf("mag_gain: %.8f %.8f %.8f\n\r", calib.mag_gain.x, calib.mag_gain.y, calib.mag_gain.z);
-  log_printf("mag_offs: %.8f %.8f %.8f\n\r", calib.mag_offs.x, calib.mag_offs.y, calib.mag_offs.z);
+  log_printf("calib data:\r\n");
+  log_printf("gyro_offs_hw: %d %d %d\r\n", calib.gyro_offset_hw.x, calib.gyro_offset_hw.y, calib.gyro_offset_hw.z);
+  log_printf("gyro_offs_sw: %.8f %.8f %.8f\r\n", calib.gyro_offset_fine.x, calib.gyro_offset_fine.y, calib.gyro_offset_fine.z);
+  log_printf("accel_offs: %.8f %.8f %.8f\r\n", calib.accel_offset.x, calib.accel_offset.y, calib.accel_offset.z);
+  log_printf("acc_mult: %.8f\r\n", calib.accel_multiplier);
+  log_printf("mag_gain: %.8f %.8f %.8f\r\n", calib.mag_gain.x, calib.mag_gain.y, calib.mag_gain.z);
+  log_printf("mag_offs: %.8f %.8f %.8f\r\n", calib.mag_offs.x, calib.mag_offs.y, calib.mag_offs.z);
 }
 
 void load_post_process_settings() {
