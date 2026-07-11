@@ -225,6 +225,9 @@ static Quaternion<double> gyro_to_quat(const Vec3d& gyro) {
     /* board orientation */
     Vec3d gyro_vec(VECSWAP_GET_V3(gyro));
     double vlen = gyro_vec.abs();
+    if (vlen == 0.0) {
+      return Quaternion<double>(1.0, 0.0, 0.0, 0.0);
+    }
     double angle_half = vlen * ((250.0 / 180.0) * PI / 1000 / 2);
     gyro_vec /= vlen;
     gyro_vec *= sin(angle_half);
